@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProductsApiServiceService } from '../products-api-service.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   rows: any[] = [];
   columns: any[] = [
     { prop: 'name' },
@@ -13,4 +14,12 @@ export class HomeComponent {
     { prop: 'price' },
     { prop: 'actions' },
   ];
+  data = [];
+  constructor(private productsApiService: ProductsApiServiceService) {}
+
+  ngOnInit(): void {
+    this.productsApiService.getData().subscribe((data) => {
+      this.data = data;
+    });
+  }
 }
