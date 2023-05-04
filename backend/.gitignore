@@ -1,0 +1,28 @@
+# Logs
+logs
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.test
+.env.development
+.env.production
+
+# Dependencies
+node_modules/
+
+# Build files
+dist/
+build/
+out/
+*.tsbuildinfo
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Tests
+coverage/
+.nyc_output/
