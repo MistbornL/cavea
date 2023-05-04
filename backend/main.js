@@ -48,13 +48,35 @@ Product.sync();
 // Enable CORS
 app.use(cors());
 
+app.get("/products", async (req, res) => {
+  const products = await Product.findAll();
+  res.json(products);
+});
+
+// Create a new product
+app.post("/products", async (req, res) => {
+  const { location, name, price } = req.body;
+  const product = await Product.create({ location, name, price });
+  res.json(product);
+});
+
+// Update an existing product
+app.put("/products/:id", async (req, res) => {
+  const { location, name, price } = req.body;
+  const product = await Product.findByPk(req.params.id);
+  product.location = location;
+  product.name = name;
+  product.price = price;
+  await product.save();
+  res.json(product);
+});
+
 // Delete a product
 app.delete("/products/:id", async (req, res) => {
   const product = await Product.findByPk(req.params.id);
   await product.destroy();
   res.json({ message: "Product deleted successfully" });
 });
-
 // Start server
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
