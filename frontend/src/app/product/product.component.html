@@ -1,39 +1,81 @@
-<form class="container mt-5 b bg-light p-5">
+<form
+  [formGroup]="productForm"
+  (ngSubmit)="onSubmit()"
+  class="container mt-5 b bg-light p-5 d-flex flex-column gap-4"
+>
+  <h1>Product Creation</h1>
   <div class="form-group">
-    <label for="exampleFormControlInput1">Email address</label>
+    <label for="exampleFormControlInput1">Name</label>
     <input
-      type="email"
+      formControlName="name"
+      type="text"
       class="form-control"
+      [class.invalid]="
+        productForm.get('name')?.invalid &&
+        (productForm.get('name')?.touched || productForm.get('name')?.dirty)
+      "
       id="exampleFormControlInput1"
-      placeholder="name@example.com"
+      placeholder="Name..."
     />
+
+    <span
+      *ngIf="
+        productForm.get('name')?.hasError('required') &&
+        (productForm.get('name')?.touched || productForm.get('name')?.dirty)
+      "
+      class="text-danger"
+    >
+      Please enter a name
+    </span>
   </div>
+
   <div class="form-group">
-    <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlSelect2">Example multiple select</label>
-    <select multiple class="form-control" id="exampleFormControlSelect2">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlTextarea1">Example textarea</label>
-    <textarea
+    <label for="exampleFormControlSelect1">Location</label>
+    <select
       class="form-control"
-      id="exampleFormControlTextarea1"
-      rows="3"
-    ></textarea>
+      [class.invalid]="
+        productForm.get('location')?.invalid &&
+        (productForm.get('location')?.touched ||
+          productForm.get('location')?.dirty)
+      "
+      formControlName="location"
+      id="exampleFormControlSelect1"
+    >
+      <option *ngFor="let option of options">{{ option }}</option>
+    </select>
+    <span
+      class="text-danger"
+      *ngIf="
+        productForm.get('location')?.hasError('required') &&
+        (productForm.get('location')?.touched ||
+          productForm.get('location')?.dirty)
+      "
+      >Location is required</span
+    >
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Price</label>
+    <input
+      formControlName="price"
+      type="number"
+      class="form-control"
+      [class.invalid]="
+        productForm.get('price')?.invalid &&
+        (productForm.get('price')?.touched || productForm.get('price')?.dirty)
+      "
+      id="exampleFormControlInput1"
+      placeholder="Price..."
+    />
+    <span
+      class="text-danger"
+      *ngIf="
+        productForm.get('price')?.hasError('required') &&
+        (productForm.get('price')?.touched || productForm.get('price')?.dirty)
+      "
+      >Price is required</span
+    >
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Submit</button>
   </div>
 </form>

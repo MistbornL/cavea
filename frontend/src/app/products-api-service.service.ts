@@ -10,4 +10,15 @@ export class ProductsApiServiceService {
   getData(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/products`);
   }
+  createProduct(data: {
+    name: string;
+    price: number;
+    location: string;
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/products`, data);
+  }
+
+  deleteProduct(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/products/${id}`);
+  }
 }
