@@ -1,16 +1,14 @@
 const express = require("express");
 const cors = require("cors");
-const { Sequelize, DataTypes } = require("sequelize");
-require("dotenv").config();
-
-const app = express();
+const productsRoutes = require("./src/routes/productsRoutes");
+const sequelize = require("./src/config/db");
 const port = process.env.PORT || 3000;
 
-// Initialize database connection
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: "postgres",
-  logging: false,
-});
+const app = express();
+app.use(express.json());
+// Enable CORS
+app.use(cors());
+app.use("/inventories", productsRoutes);
 
 // Test database connection
 sequelize
@@ -22,61 +20,8 @@ sequelize
     console.error("Unable to connect to the database:", error);
   });
 
-const Product = sequelize.define(
-  "Product",
-  {
-    location: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    name: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    price: {
-      type: DataTypes.NUMERIC(10, 2),
-      allowNull: false,
-    },
-  },
-  {
-    schema: "Products",
-  }
-);
-
 // Create the products table in the database if it doesn't exist
-Product.sync();
-// Enable CORS
-app.use(cors());
 
-app.get("/products", async (req, res) => {
-  const products = await Product.findAll();
-  res.json(products);
-});
-
-// Create a new product
-app.post("/products", async (req, res) => {
-  const { location, name, price } = req.body;
-  const product = await Product.create({ location, name, price });
-  res.json(product);
-});
-
-// Update an existing product
-app.put("/products/:id", async (req, res) => {
-  const { location, name, price } = req.body;
-  const product = await Product.findByPk(req.params.id);
-  product.location = location;
-  product.name = name;
-  product.price = price;
-  await product.save();
-  res.json(product);
-});
-
-// Delete a product
-app.delete("/products/:id", async (req, res) => {
-  const product = await Product.findByPk(req.params.id);
-  await product.destroy();
-  res.json({ message: "Product deleted successfully" });
-});
 // Start server
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);

@@ -8,10 +8,12 @@ import { ProductComponent } from './product/product.component';
 import { TableComponent } from './table/table.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, ProductComponent, TableComponent],
   imports: [
+    NgxPaginationModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
