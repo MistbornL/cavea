@@ -16,7 +16,7 @@ export class TableComponent implements OnInit {
     { prop: 'price' },
     { prop: 'actions' },
   ];
-  data: { ID: number; name: string; price: number; location: string }[] = [];
+  data: { id: number; name: string; price: number; location: string }[] = [];
   faDelete = faTrash;
   constructor(private productsApiService: ProductsApiServiceService) {}
 
@@ -30,7 +30,7 @@ export class TableComponent implements OnInit {
   deleteProduct(productId: number) {
     this.productsApiService.deleteProduct(productId).subscribe(() => {
       // Remove the deleted product from the data array
-      this.data = this.data.filter((p) => p.ID !== productId);
+      this.data = this.data.filter((p) => p.id !== productId);
     });
   }
 }
