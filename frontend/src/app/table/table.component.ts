@@ -32,19 +32,16 @@ export class TableComponent implements OnInit {
   faDelete = faTrash;
   locationFilter = new FormControl('');
   selectedLocation = '';
-  locations: string[] = [
-    'მთავარი ოფისი',
-    'კავეა გალერია',
-    ' კავეა თბილისი მოლი',
-    ' კავეა ისთ ფოინთი',
-    ' კავეა სითი მოლი',
-  ];
+  locations: string[] = [];
+  loading = false;
   constructor(private productsApiService: ProductsApiServiceService) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.productsApiService.getData().subscribe((data) => {
       this.data = data;
       this.locations = Array.from(new Set(data.map((p: any) => p.location)));
+      this.loading = false;
     });
     this.locationFilter.valueChanges.subscribe((value) => {
       this.selectedLocation = value ?? '';
