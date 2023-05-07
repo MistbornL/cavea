@@ -1,10 +1,16 @@
 const { Product } = require("../models/Product");
 const products = [];
-
+locations = [
+  "მთავარი ოფისი",
+  "კავეა გალერია",
+  " კავეა თბილისი მოლი",
+  " კავეა ისთ ფოინთი",
+  " კავეა სითი მოლი",
+];
 // // Generate 30000 products with random data
-// for (let i = 0; i < 30000; i++) {
+// for (let i = 0; i < 300000; i++) {
 //   products.push({
-//     location: "Location " + i,
+//     location: locations[Math.floor(Math.random() * locations.length)],
 //     name: "Product " + i,
 //     price: Math.floor(Math.random() * 1000) + 1,
 //   });
@@ -19,9 +25,20 @@ const products = [];
 //     console.error("Error inserting products:", error);
 //   });
 
+// Product.destroy({ where: {} })
+//   .then(() => console.log("All products have been deleted"))
+//   .catch((error) => console.error(error));
+
 exports.getProducts = async (req, res) => {
   try {
-    const products = (await Product.findAll()).slice(0, 50);
+    const { location } = req.query;
+
+    let filters = {};
+    if (location) {
+      filters.location = location;
+    }
+
+    const products = await Product.findAll({ where: filters });
     res.json(products);
   } catch (error) {
     console.error(error);
