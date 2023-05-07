@@ -8,17 +8,17 @@ import { environment } from 'src/environments/environment.development';
 export class ProductsApiServiceService {
   constructor(private http: HttpClient) {}
   getData(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/products`);
+    return this.http.get(`${environment.apiUrl}/inventories`);
   }
   createProduct(data: {
     name: string;
     price: number;
     location: string;
   }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/products`, data);
+    return this.http.post(`${environment.apiUrl}/inventories`, data);
   }
 
   deleteProduct(id: number): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/products/${id}`);
+    return this.http.delete(`${environment.apiUrl}/inventories/${id}`);
   }
 }

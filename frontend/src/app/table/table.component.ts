@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsApiServiceService } from '../products-api-service.service';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Observable, map } from 'rxjs';
+import { NgModel } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 interface DataProps {
   id: number;
@@ -28,12 +30,24 @@ export class TableComponent implements OnInit {
   ];
   data: DataProps[] = [];
   faDelete = faTrash;
+  locationFilter = new FormControl('');
+  selectedLocation = '';
+  locations: string[] = [
+    'მთავარი ოფისი',
+    'კავეა გალერია',
+    ' კავეა თბილისი მოლი',
+    ' კავეა ისთ ფოინთი',
+    ' კავეა სითი მოლი',
+  ];
   constructor(private productsApiService: ProductsApiServiceService) {}
 
   ngOnInit(): void {
     this.productsApiService.getData().subscribe((data) => {
-      console.log(data);
       this.data = data;
+      this.locations = Array.from(new Set(data.map((p: any) => p.location)));
+    });
+    this.locationFilter.valueChanges.subscribe((value) => {
+      this.selectedLocation = value ?? '';
     });
   }
 
@@ -51,5 +65,12 @@ export class TableComponent implements OnInit {
         return data.slice(startIndex, startIndex + this.itemsPerPage);
       })
     );
+  }
+
+  get filteredData(): any[] {
+    if (!this.selectedLocation) {
+      return this.data;
+    }
+    return this.data.filter((p) => p.location === this.selectedLocation);
   }
 }

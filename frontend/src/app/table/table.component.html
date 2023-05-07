@@ -1,3 +1,17 @@
+<div class="form-group">
+  <label for="location-filter">Filter by location:</label>
+  <select
+    id="location-filter"
+    class="form-control"
+    [formControl]="locationFilter"
+  >
+    <option value="">All locations</option>
+    <option *ngFor="let location of locations" [value]="location">
+      {{ location }}
+    </option>
+  </select>
+</div>
+
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -5,8 +19,14 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let product of data; let i = index">
-      <th scope="row">{{ i + 1 }}</th>
+    <tr
+      *ngFor="
+        let product of filteredData
+          | paginate : { itemsPerPage: itemsPerPage, currentPage: page };
+        let i = index
+      "
+    >
+      <th scope="row">{{ product.id }}</th>
       <td>{{ product.name }}</td>
       <td>{{ product.location }}</td>
       <td>{{ product.price }} ₾</td>
@@ -22,4 +42,11 @@
   </tbody>
 </table>
 
-<pagination-controls (pageChange)="page = $event"></pagination-controls>
+<pagination-controls
+  (pageChange)="page = $event"
+  previousLabel="Previous"
+  nextLabel="Next"
+  *ngIf="data.length > 0"
+>
+  > ></pagination-controls
+>

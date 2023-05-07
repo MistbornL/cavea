@@ -9,6 +9,7 @@ import { TableComponent } from './table/table.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PaginationControlsComponent } from 'ngx-pagination';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, ProductComponent, TableComponent],
