@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
 const Product = sequelize.define(
@@ -22,4 +22,4 @@ const Product = sequelize.define(
   }
 );
 Product.sync();
-module.exports = Product;
+module.exports = { Product };
